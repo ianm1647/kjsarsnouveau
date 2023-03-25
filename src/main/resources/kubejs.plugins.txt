@@ -1,1 +1,1 @@
-com.bobvarioa.kubejsarsnoveau.KubeJSArsNouveauPlugin
+com.bobvarioa.kubejsarsnouveau.KubeJSArsNouveauPlugin

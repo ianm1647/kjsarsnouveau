@@ -1,9 +1,8 @@
-package com.bobvarioa.kubejsarsnoveau.recipes;
+package com.bobvarioa.kubejsarsnouveau.recipes;
 
 import com.hollingsworth.arsnouveau.api.ArsNouveauAPI;
 import com.hollingsworth.arsnouveau.api.sound.ConfiguredSpellSound;
 import com.hollingsworth.arsnouveau.api.sound.SpellSound;
-import com.hollingsworth.arsnouveau.common.crafting.recipes.GlyphRecipe;
 import com.hollingsworth.arsnouveau.common.tomes.CasterTomeData;
 import com.hollingsworth.arsnouveau.setup.RecipeRegistry;
 import dev.latvian.mods.kubejs.recipe.*;
@@ -24,7 +23,7 @@ public class CasterTomeRecipeJS extends RecipeJS {
     @Override
     public void create(RecipeArguments args) {
         recipe = new CasterTomeData(
-                getOrCreateId(),
+                new ResourceLocation("dummy"),
                 args.getString(0, ""),
                 parseResourceList(args.get(1)),
                 new ResourceLocation("ars_nouveau:caster_tome"),
@@ -64,6 +63,9 @@ public class CasterTomeRecipeJS extends RecipeJS {
 
     protected List<ResourceLocation> parseResourceList(Object obj) {
         List<?> list = ListJS.of(obj);
+        if (list == null) {
+            return null;
+        }
         List<ResourceLocation> resList = new ArrayList<>();
         for (var ele : list) {
             resList.add(getAsID(ele));

@@ -1,7 +1,6 @@
-package com.bobvarioa.kubejsarsnoveau.recipes;
+package com.bobvarioa.kubejsarsnouveau.recipes;
 
 import com.hollingsworth.arsnouveau.common.crafting.recipes.CrushRecipe;
-import com.hollingsworth.arsnouveau.common.crafting.recipes.GlyphRecipe;
 import com.hollingsworth.arsnouveau.setup.RecipeRegistry;
 import dev.latvian.mods.kubejs.recipe.*;
 import dev.latvian.mods.kubejs.util.ListJS;
@@ -21,7 +20,7 @@ public class CrushRecipeJS extends RecipeJS {
     @Override
     public void create(RecipeArguments args) {
         recipe = new CrushRecipe(
-            getOrCreateId(),
+                new ResourceLocation("dummy"),
             parseItemInput(args.get(0)),
             parseCrushOutputs(args.get(1)),
             getBool(args.get(2))

@@ -1,6 +1,6 @@
-package com.bobvarioa.kubejsarsnoveau;
+package com.bobvarioa.kubejsarsnouveau;
 
-import com.bobvarioa.kubejsarsnoveau.recipes.*;
+import com.bobvarioa.kubejsarsnouveau.recipes.*;
 import dev.latvian.mods.kubejs.KubeJSPlugin;
 import dev.latvian.mods.kubejs.recipe.RegisterRecipeTypesEvent;
 import net.minecraft.resources.ResourceLocation;

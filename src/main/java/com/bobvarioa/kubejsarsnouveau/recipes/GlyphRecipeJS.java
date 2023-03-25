@@ -1,35 +1,27 @@
-package com.bobvarioa.kubejsarsnoveau.recipes;
+package com.bobvarioa.kubejsarsnouveau.recipes;
 
 import com.hollingsworth.arsnouveau.api.enchanting_apparatus.EnchantmentRecipe;
+import com.hollingsworth.arsnouveau.common.crafting.recipes.GlyphRecipe;
 import com.hollingsworth.arsnouveau.setup.RecipeRegistry;
 import dev.latvian.mods.kubejs.recipe.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraftforge.registries.ForgeRegistries;
 
-public class EnchantmentRecipeJS extends RecipeJS {
-    private static final RecipeSerializer<EnchantmentRecipe> serializer = RecipeRegistry.ENCHANTMENT_SERIALIZER.get();;
-    private EnchantmentRecipe recipe = null;
+public class GlyphRecipeJS extends RecipeJS {
+    private static final RecipeSerializer<GlyphRecipe> serializer = RecipeRegistry.GLYPH_SERIALIZER.get();
+    private GlyphRecipe recipe = null;
 
     @Override
     public void create(RecipeArguments args) {
-        recipe = new EnchantmentRecipe(
-            parseItemInputList(args.get(0)),
-            ForgeRegistries.ENCHANTMENTS.getValue(getAsID(args.get(1))),
-            args.getInt(2, 0),
-            args.getInt(3, 0)
+        recipe = new GlyphRecipe(
+            new ResourceLocation("dummy"),
+            parseItemOutput(args.get(0)),
+            parseItemInputList(args.get(1)),
+            args.getInt(2, 0)
         );
     }
-
-    protected ResourceLocation getAsID(Object o) {
-        if (o instanceof ResourceLocation rl)
-            return rl;
-        return new ResourceLocation(o.toString());
-    }
-
-
     @Override
     public void deserialize() {
         recipe = serializer.fromJson(new ResourceLocation("kubejs:empty"), json);
@@ -44,18 +36,18 @@ public class EnchantmentRecipeJS extends RecipeJS {
 
     @Override
     public boolean hasInput(IngredientMatch match) {
-        var ings = recipe.pedestalItems;
-        for (Ingredient ing : ings) {
+        var ings = recipe.inputs;
+        for (var ing : ings) {
             if (match.contains(ing)) {
                 return true;
             }
         }
-        return match.contains(recipe.reagent);
+        return false;
     }
 
     @Override
     public boolean replaceInput(IngredientMatch match, Ingredient with, ItemInputTransformer transformer) {
-        var ings = recipe.pedestalItems;
+        var ings = recipe.inputs;
         var changed = false;
         for (int i = 0; i < ings.size(); i++) {
             var ing = ings.get(i);
@@ -64,20 +56,20 @@ public class EnchantmentRecipeJS extends RecipeJS {
                 changed = true;
             }
         }
-        if (match.contains(recipe.reagent)) {
-            changed = true;
-            recipe.reagent = transformer.transform(this, match, recipe.reagent, with);
-        }
         return changed;
     }
 
     @Override
     public boolean hasOutput(IngredientMatch match) {
-        return false;
+        return match.contains(recipe.output);
     }
 
     @Override
     public boolean replaceOutput(IngredientMatch match, ItemStack with, ItemOutputTransformer transformer) {
+        if (match.contains(recipe.output)) {
+            recipe.output = transformer.transform(this, match, recipe.output, with);
+            return true;
+        }
         return false;
     }
 }

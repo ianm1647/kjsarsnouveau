@@ -1,6 +1,5 @@
-package com.bobvarioa.kubejsarsnoveau.recipes;
+package com.bobvarioa.kubejsarsnouveau.recipes;
 
-import com.hollingsworth.arsnouveau.common.crafting.recipes.CrushRecipe;
 import com.hollingsworth.arsnouveau.common.crafting.recipes.ImbuementRecipe;
 import com.hollingsworth.arsnouveau.setup.RecipeRegistry;
 import dev.latvian.mods.kubejs.recipe.*;
@@ -16,7 +15,7 @@ public class ImbuementRecipeJS extends RecipeJS {
     @Override
     public void create(RecipeArguments args) {
         recipe = new ImbuementRecipe(
-            getOrCreateId(),
+            new ResourceLocation("dummy"),
             parseItemInput(args.get(0)),
             parseItemOutput(args.get(1)),
             args.getInt(2, 0),
@@ -61,7 +60,7 @@ public class ImbuementRecipeJS extends RecipeJS {
         if (match.contains(recipe.input)) {
             changed = true;
         recipe = new ImbuementRecipe(
-                getOrCreateId(),
+                new ResourceLocation("dummy"),
                 transformer.transform(this, match, recipe.input, with),
                 recipe.output,
                 recipe.source,
@@ -80,7 +79,7 @@ public class ImbuementRecipeJS extends RecipeJS {
     public boolean replaceOutput(IngredientMatch match, ItemStack with, ItemOutputTransformer transformer) {
         if (match.contains(recipe.output)) {
             recipe = new ImbuementRecipe(
-                    getOrCreateId(),
+                    new ResourceLocation("dummy"),
                     recipe.input,
                     transformer.transform(this, match, recipe.output, with),
                     recipe.source,

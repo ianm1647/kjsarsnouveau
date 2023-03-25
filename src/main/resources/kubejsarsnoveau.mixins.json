@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.bobvarioa.kubejsarsnoveau.mixin",
+  "package": "com.bobvarioa.kubejsarsnouveau.mixin",
   "compatibilityLevel": "JAVA_8",
   "refmap": "kubejsarsnoveau.refmap.json",
   "mixins": [

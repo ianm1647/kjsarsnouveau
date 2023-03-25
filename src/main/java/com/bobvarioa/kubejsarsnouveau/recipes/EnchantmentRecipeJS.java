@@ -1,39 +1,35 @@
-package com.bobvarioa.kubejsarsnoveau.recipes;
+package com.bobvarioa.kubejsarsnouveau.recipes;
 
-import com.hollingsworth.arsnouveau.api.enchanting_apparatus.EnchantingApparatusRecipe;
-import com.hollingsworth.arsnouveau.common.crafting.recipes.GlyphRecipe;
+import com.hollingsworth.arsnouveau.api.enchanting_apparatus.EnchantmentRecipe;
 import com.hollingsworth.arsnouveau.setup.RecipeRegistry;
 import dev.latvian.mods.kubejs.recipe.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraftforge.registries.ForgeRegistries;
 
-public class EnchantingApparatusRecipeJS extends RecipeJS {
-    private static final RecipeSerializer<EnchantingApparatusRecipe> serializer = RecipeRegistry.APPARATUS_SERIALIZER.get();
-    private EnchantingApparatusRecipe recipe = null;
+public class EnchantmentRecipeJS extends RecipeJS {
+    private static final RecipeSerializer<EnchantmentRecipe> serializer = RecipeRegistry.ENCHANTMENT_SERIALIZER.get();
+    ;
+    private EnchantmentRecipe recipe = null;
 
     @Override
     public void create(RecipeArguments args) {
-        recipe = new EnchantingApparatusRecipe(
-            getOrCreateId(),
-            parseItemInputList(args.get(0)),
-            parseItemInput(args.get(1)),
-            parseItemOutput(args.get(2)),
-            args.getInt(3, 0),
-            getBool(args.get(4))
+        recipe = new EnchantmentRecipe(
+                parseItemInputList(args.get(0)),
+                ForgeRegistries.ENCHANTMENTS.getValue(getAsID(args.get(1))),
+                args.getInt(2, 0),
+                args.getInt(3, 0)
         );
     }
 
-    protected boolean getBool(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (obj instanceof Boolean bool) {
-            return bool;
-        }
-        return (boolean) obj;
+    protected ResourceLocation getAsID(Object o) {
+        if (o instanceof ResourceLocation rl)
+            return rl;
+        return new ResourceLocation(o.toString());
     }
+
 
     @Override
     public void deserialize() {
@@ -78,15 +74,11 @@ public class EnchantingApparatusRecipeJS extends RecipeJS {
 
     @Override
     public boolean hasOutput(IngredientMatch match) {
-        return match.contains(recipe.result);
+        return false;
     }
 
     @Override
     public boolean replaceOutput(IngredientMatch match, ItemStack with, ItemOutputTransformer transformer) {
-        if (match.contains(recipe.result)) {
-            recipe.result = transformer.transform(this, match, recipe.result, with);
-            return true;
-        }
         return false;
     }
 }

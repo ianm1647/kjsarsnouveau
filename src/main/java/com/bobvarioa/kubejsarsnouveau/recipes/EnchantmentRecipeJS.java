@@ -1,84 +1,20 @@
 package com.bobvarioa.kubejsarsnouveau.recipes;
 
-import com.hollingsworth.arsnouveau.api.enchanting_apparatus.EnchantmentRecipe;
-import com.hollingsworth.arsnouveau.setup.RecipeRegistry;
-import dev.latvian.mods.kubejs.recipe.*;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraftforge.registries.ForgeRegistries;
+import com.bobvarioa.kubejsarsnouveau.components.ItemComponentsExtra;
+import dev.latvian.mods.kubejs.item.InputItem;
+import dev.latvian.mods.kubejs.recipe.RecipeKey;
+import dev.latvian.mods.kubejs.recipe.component.NumberComponent;
+import dev.latvian.mods.kubejs.recipe.component.StringComponent;
+import dev.latvian.mods.kubejs.recipe.schema.RecipeSchema;
 
-public class EnchantmentRecipeJS extends RecipeJS {
-    private static final RecipeSerializer<EnchantmentRecipe> serializer = RecipeRegistry.ENCHANTMENT_SERIALIZER.get();
-    ;
-    private EnchantmentRecipe recipe = null;
+public interface EnchantmentRecipeJS {
 
-    @Override
-    public void create(RecipeArguments args) {
-        recipe = new EnchantmentRecipe(
-                parseItemInputList(args.get(0)),
-                ForgeRegistries.ENCHANTMENTS.getValue(getAsID(args.get(1))),
-                args.getInt(2, 0),
-                args.getInt(3, 0)
-        );
-    }
+    RecipeKey<InputItem[]> PEDESTAL_ITEMS = ItemComponentsExtra.INPUT_ITEM_ARS.asArray().key("pedestalItems");
 
-    protected ResourceLocation getAsID(Object o) {
-        if (o instanceof ResourceLocation rl)
-            return rl;
-        return new ResourceLocation(o.toString());
-    }
+    RecipeKey<String> ENCHANTMENT = StringComponent.ANY.key("enchantment");
 
+    RecipeKey<Integer> LEVEL = NumberComponent.INT.key("level");
+    RecipeKey<Integer> SOURCE = NumberComponent.INT.key("sourceCost").alt("source");
 
-    @Override
-    public void deserialize() {
-        recipe = serializer.fromJson(new ResourceLocation("kubejs:empty"), json);
-    }
-
-    @Override
-    public void serialize() {
-        for (var entry : recipe.asRecipe().getAsJsonObject().entrySet()) {
-            json.add(entry.getKey(), entry.getValue());
-        }
-    }
-
-    @Override
-    public boolean hasInput(IngredientMatch match) {
-        var ings = recipe.pedestalItems;
-        for (Ingredient ing : ings) {
-            if (match.contains(ing)) {
-                return true;
-            }
-        }
-        return match.contains(recipe.reagent);
-    }
-
-    @Override
-    public boolean replaceInput(IngredientMatch match, Ingredient with, ItemInputTransformer transformer) {
-        var ings = recipe.pedestalItems;
-        var changed = false;
-        for (int i = 0; i < ings.size(); i++) {
-            var ing = ings.get(i);
-            if (match.contains(ing)) {
-                ings.set(i, transformer.transform(this, match, ing, with));
-                changed = true;
-            }
-        }
-        if (match.contains(recipe.reagent)) {
-            changed = true;
-            recipe.reagent = transformer.transform(this, match, recipe.reagent, with);
-        }
-        return changed;
-    }
-
-    @Override
-    public boolean hasOutput(IngredientMatch match) {
-        return false;
-    }
-
-    @Override
-    public boolean replaceOutput(IngredientMatch match, ItemStack with, ItemOutputTransformer transformer) {
-        return false;
-    }
+    RecipeSchema SCHEMA = new RecipeSchema(PEDESTAL_ITEMS,ENCHANTMENT,  LEVEL, SOURCE);
 }

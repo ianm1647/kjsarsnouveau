@@ -1,91 +1,25 @@
 package com.bobvarioa.kubejsarsnouveau.recipes;
 
-import com.hollingsworth.arsnouveau.api.enchanting_apparatus.EnchantingApparatusRecipe;
-import com.hollingsworth.arsnouveau.setup.RecipeRegistry;
-import dev.latvian.mods.kubejs.recipe.*;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
+import com.bobvarioa.kubejsarsnouveau.components.ItemComponentsExtra;
+import dev.latvian.mods.kubejs.item.InputItem;
+import dev.latvian.mods.kubejs.item.OutputItem;
+import dev.latvian.mods.kubejs.recipe.RecipeKey;
+import dev.latvian.mods.kubejs.recipe.component.BooleanComponent;
+import dev.latvian.mods.kubejs.recipe.component.ItemComponents;
+import dev.latvian.mods.kubejs.recipe.component.NumberComponent;
+import dev.latvian.mods.kubejs.recipe.schema.RecipeSchema;
 
-public class EnchantingApparatusRecipeJS extends RecipeJS {
-    private static final RecipeSerializer<EnchantingApparatusRecipe> serializer = RecipeRegistry.APPARATUS_SERIALIZER.get();
-    private EnchantingApparatusRecipe recipe = null;
+public interface EnchantingApparatusRecipeJS {
 
-    @Override
-    public void create(RecipeArguments args) {
-        recipe = new EnchantingApparatusRecipe(
-                new ResourceLocation("dummy"),
-            parseItemInputList(args.get(0)),
-            parseItemInput(args.get(1)),
-            parseItemOutput(args.get(2)),
-            args.getInt(3, 0),
-            getBool(args.get(4))
-        );
-    }
+    RecipeKey<InputItem[]> PEDESTAL_ITEMS = ItemComponentsExtra.INPUT_ITEM_ARS.asArray().key("pedestalItems");
 
-    protected boolean getBool(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (obj instanceof Boolean bool) {
-            return bool;
-        }
-        return (boolean) obj;
-    }
+    RecipeKey<InputItem[]> REAGENT = ItemComponents.INPUT.asArray().key("reagent");
 
-    @Override
-    public void deserialize() {
-        recipe = serializer.fromJson(new ResourceLocation("kubejs:empty"), json);
-    }
+    RecipeKey<OutputItem> OUTPUT = ItemComponents.OUTPUT.key("output");
 
-    @Override
-    public void serialize() {
-        for (var entry : recipe.asRecipe().getAsJsonObject().entrySet()) {
-            json.add(entry.getKey(), entry.getValue());
-        }
-    }
+    RecipeKey<Integer> SOURCE = NumberComponent.INT.key("sourceCost").alt("source").optional(0);
 
-    @Override
-    public boolean hasInput(IngredientMatch match) {
-        var ings = recipe.pedestalItems;
-        for (Ingredient ing : ings) {
-            if (match.contains(ing)) {
-                return true;
-            }
-        }
-        return match.contains(recipe.reagent);
-    }
+    RecipeKey<Boolean> KEEP_NBT = BooleanComponent.BOOLEAN.key("keepNbtOfReagent").alt("keepNbt").optional(false);
 
-    @Override
-    public boolean replaceInput(IngredientMatch match, Ingredient with, ItemInputTransformer transformer) {
-        var ings = recipe.pedestalItems;
-        var changed = false;
-        for (int i = 0; i < ings.size(); i++) {
-            var ing = ings.get(i);
-            if (match.contains(ing)) {
-                ings.set(i, transformer.transform(this, match, ing, with));
-                changed = true;
-            }
-        }
-        if (match.contains(recipe.reagent)) {
-            changed = true;
-            recipe.reagent = transformer.transform(this, match, recipe.reagent, with);
-        }
-        return changed;
-    }
-
-    @Override
-    public boolean hasOutput(IngredientMatch match) {
-        return match.contains(recipe.result);
-    }
-
-    @Override
-    public boolean replaceOutput(IngredientMatch match, ItemStack with, ItemOutputTransformer transformer) {
-        if (match.contains(recipe.result)) {
-            recipe.result = transformer.transform(this, match, recipe.result, with);
-            return true;
-        }
-        return false;
-    }
+    RecipeSchema SCHEMA = new RecipeSchema(PEDESTAL_ITEMS, REAGENT, OUTPUT, SOURCE, KEEP_NBT);
 }

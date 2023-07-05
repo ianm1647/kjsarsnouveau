@@ -17,34 +17,6 @@ import dev.latvian.mods.kubejs.util.TinyMap;
 import java.util.Map;
 
 public class ItemComponentsExtra {
-    public static RecipeComponent<OutputItem> OUTPUT_COUNT = new RecipeComponentWithParent<>() {
-        @Override
-        public RecipeComponent<OutputItem> parentComponent() {
-            return ItemComponents.OUTPUT;
-        }
-
-        @Override
-        public void writeToJson(RecipeComponentValue<OutputItem> value, JsonObject json) {
-            json.addProperty(value.key.name, KubeJSRegistries.items().getId(value.value.item.getItem()).toString());
-            json.addProperty("count", value.value.item.getCount());
-        }
-
-        @Override
-        public OutputItem readFromJson(RecipeJS recipe, RecipeKey<OutputItem> key, JsonObject json) {
-            var item = RecipeComponentWithParent.super.readFromJson(recipe, key, json);
-
-            if (item != null && json.has("count")) {
-                item.item.setCount(json.get("count").getAsInt());
-            }
-
-            return item;
-        }
-
-        @Override
-        public String toString() {
-            return parentComponent().toString();
-        }
-    };
 
     public static RecipeComponent<InputItem> INPUT_ITEM_ARS = new RecipeComponent<InputItem>() {
         @Override

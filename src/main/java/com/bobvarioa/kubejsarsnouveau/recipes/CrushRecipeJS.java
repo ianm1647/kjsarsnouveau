@@ -12,10 +12,9 @@ public interface CrushRecipeJS {
     RecipeKey<InputItem> INPUT = ItemComponents.INPUT.key("input");
 
     RecipeComponentBuilder CRUSH_OUTPUT =  RecipeComponent.builder()
-            .add(StringComponent.ANY.key("item"))
+            .add(ItemComponents.OUTPUT_ID_WITH_COUNT.key("item"))
             .add(NumberComponent.FLOAT.key("chance"))
-            .add(NumberComponent.INT.key("count"))
-            .add(NumberComponent.INT.key("maxRange"));
+            .add(NumberComponent.INT.key("maxRange").optional(1));
 
     RecipeKey<RecipeComponentBuilderMap[]> CRUSH_OUTPUTS = CRUSH_OUTPUT.asArray().key("output");
 

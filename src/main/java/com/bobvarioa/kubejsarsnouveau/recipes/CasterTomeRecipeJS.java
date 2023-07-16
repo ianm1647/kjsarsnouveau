@@ -1,10 +1,7 @@
 package com.bobvarioa.kubejsarsnouveau.recipes;
 
 import dev.latvian.mods.kubejs.recipe.RecipeKey;
-import dev.latvian.mods.kubejs.recipe.component.NumberComponent;
-import dev.latvian.mods.kubejs.recipe.component.RecipeComponent;
-import dev.latvian.mods.kubejs.recipe.component.RecipeComponentBuilder;
-import dev.latvian.mods.kubejs.recipe.component.StringComponent;
+import dev.latvian.mods.kubejs.recipe.component.*;
 import dev.latvian.mods.kubejs.recipe.schema.RecipeSchema;
 
 import java.util.Map;
@@ -22,7 +19,7 @@ public interface CasterTomeRecipeJS {
             .add(NumberComponent.FLOAT.key("volume"))
             .add(NumberComponent.FLOAT.key("pitch"));
 
-    RecipeKey<RecipeComponentBuilder.RCBHolder[]> SOUND = SOUND_COMPONENT.key("sound");
+    RecipeKey<RecipeComponentBuilderMap> SOUND = SOUND_COMPONENT.key("sound");
 
     RecipeSchema SCHEMA = new RecipeSchema(TOME_TYPE, NAME, SPELL, FLAVOUR_TEXT, COLOR,  SOUND).constructor(NAME, SPELL, FLAVOUR_TEXT, COLOR, SOUND).constructor(NAME);
 }

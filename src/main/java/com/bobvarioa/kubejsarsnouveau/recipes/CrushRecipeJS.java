@@ -17,7 +17,7 @@ public interface CrushRecipeJS {
             .add(NumberComponent.INT.key("count"))
             .add(NumberComponent.INT.key("maxRange"));
 
-    RecipeKey<RecipeComponentBuilder.RCBHolder[][]> CRUSH_OUTPUTS = CRUSH_OUTPUT.asArray().key("output");
+    RecipeKey<RecipeComponentBuilderMap[]> CRUSH_OUTPUTS = CRUSH_OUTPUT.asArray().key("output");
 
     RecipeKey<Boolean> SKIP_BLOCK_PLACE = BooleanComponent.BOOLEAN.key("skip_block_place").optional(true);
 

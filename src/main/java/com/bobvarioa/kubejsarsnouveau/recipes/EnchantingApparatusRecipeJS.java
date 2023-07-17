@@ -1,6 +1,6 @@
 package com.bobvarioa.kubejsarsnouveau.recipes;
 
-import com.bobvarioa.kubejsarsnouveau.components.ItemComponentsExtra;
+import com.bobvarioa.kubejsarsnouveau.components.ArsComponents;
 import dev.latvian.mods.kubejs.item.InputItem;
 import dev.latvian.mods.kubejs.item.OutputItem;
 import dev.latvian.mods.kubejs.recipe.RecipeKey;
@@ -11,7 +11,7 @@ import dev.latvian.mods.kubejs.recipe.schema.RecipeSchema;
 
 public interface EnchantingApparatusRecipeJS {
 
-    RecipeKey<InputItem[]> PEDESTAL_ITEMS = ItemComponentsExtra.INPUT_ITEM_ARS.asArray().key("pedestalItems");
+    RecipeKey<InputItem[]> PEDESTAL_ITEMS = ArsComponents.INPUT_ITEM.asArray().key("pedestalItems");
 
     RecipeKey<InputItem[]> REAGENT = ItemComponents.INPUT.asArray().key("reagent");
 

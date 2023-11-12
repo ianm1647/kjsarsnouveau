@@ -1,7 +1,6 @@
 package com.bobvarioa.kubejsarsnouveau;
 
 import com.mojang.logging.LogUtils;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
@@ -12,7 +11,7 @@ public class KubeJSArsNouveau {
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public KubeJSArsNouveau() {
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        var modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
     }
 }

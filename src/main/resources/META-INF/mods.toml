@@ -29,6 +29,6 @@ license = "${mod_license}"
 [[dependencies.${mod_id}]]
     modId = "ars_nouveau"
     mandatory = true
-    versionRange = "[${arsnouveau_version},)"
+    versionRange = "[4.7.4,)"
     ordering = "NONE"
     side = "BOTH"

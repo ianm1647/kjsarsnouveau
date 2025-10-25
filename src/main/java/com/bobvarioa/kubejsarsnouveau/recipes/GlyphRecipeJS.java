@@ -1,6 +1,5 @@
 package com.bobvarioa.kubejsarsnouveau.recipes;
 
-import com.bobvarioa.kubejsarsnouveau.components.ArsComponents;
 import dev.latvian.mods.kubejs.recipe.RecipeKey;
 import dev.latvian.mods.kubejs.recipe.component.ComponentRole;
 import dev.latvian.mods.kubejs.recipe.component.IngredientComponent;
@@ -14,7 +13,7 @@ import java.util.List;
 
 public interface GlyphRecipeJS {
 
-    RecipeKey<List<Ingredient>> INPUT_ITEMS = IngredientComponent.INGREDIENT.asList().key("inputs", ComponentRole.INPUT);
+    RecipeKey<List<Ingredient>> INPUT_ITEMS = IngredientComponent.INGREDIENT.instance().asList().key("inputs", ComponentRole.INPUT);
     RecipeKey<ItemStack> OUTPUT = ItemStackComponent.ITEM_STACK.key("output", ComponentRole.OUTPUT);
 
     RecipeKey<Integer> EXPERIENCE = NumberComponent.INT.key("exp", ComponentRole.OTHER).alt("experience", "xp").optional(0);

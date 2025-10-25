@@ -2,45 +2,22 @@ package com.bobvarioa.kubejsarsnouveau.components;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.latvian.mods.kubejs.recipe.KubeRecipe;
-import dev.latvian.mods.kubejs.recipe.component.IngredientComponent;
-import dev.latvian.mods.kubejs.recipe.component.RecipeComponent;
-import dev.latvian.mods.kubejs.recipe.component.RecipeComponentWithParent;
-import dev.latvian.mods.kubejs.recipe.component.SimpleRecipeComponent;
+import dev.latvian.mods.kubejs.recipe.RecipeScriptContext;
+import dev.latvian.mods.kubejs.recipe.component.*;
+import dev.latvian.mods.kubejs.recipe.filter.RecipeMatchContext;
 import dev.latvian.mods.kubejs.recipe.match.Replaceable;
 import dev.latvian.mods.kubejs.recipe.match.ReplacementMatchInfo;
-import dev.latvian.mods.rhino.Context;
 import dev.latvian.mods.rhino.type.TypeInfo;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
-import java.util.List;
 import java.util.Optional;
 
 public class ArsComponents {
-    public static RecipeComponent<CrushItem> CRUSH_OUTPUT = new CrushItemComponent();
-    public static RecipeComponent<Sound> SOUND = new SoundComponent();
-    public static RecipeComponent<Color> COLOR = new ColorComponent();
-
-    public static RecipeComponent<List<Ingredient>> INGREDIENT_LIST = new OptionalIngredientListComponent();
-
-    public static class OptionalIngredientListComponent extends SimpleRecipeComponent<List<Ingredient>> implements RecipeComponentWithParent<List<Ingredient>> {
-
-        public OptionalIngredientListComponent() {
-            super("ingredient[]", Ingredient.CODEC.listOf(), TypeInfo.RAW_LIST);
-        }
-
-        @Override
-        public RecipeComponent<List<Ingredient>> parentComponent() {
-            return IngredientComponent.INGREDIENT.asList();
-        }
-
-
-        @Override
-        public void validate(List<Ingredient> value) {
-            // nop
-        }
-    }
+    public static RecipeComponentType<CrushItem> CRUSH_OUTPUT = RecipeComponentType.unit(ResourceLocation.fromNamespaceAndPath("ars_nouveau", "crush_item"), CrushItemComponent::new);
+    public static RecipeComponentType<Sound> SOUND = RecipeComponentType.unit(ResourceLocation.fromNamespaceAndPath("ars_nouveau", "sound"), SoundComponent::new);
+    public static RecipeComponentType<Color> COLOR = RecipeComponentType.unit(ResourceLocation.fromNamespaceAndPath("ars_nouveau", "color"), ColorComponent::new);
 
     public record CrushItem(ItemStack stack, float chance, double maxRange) {
         public static Codec<CrushItem> CODEC = Codec.lazyInitialized(() -> RecordCodecBuilder.create((o) -> o.group(
@@ -52,27 +29,28 @@ public class ArsComponents {
 
     public static class CrushItemComponent extends SimpleRecipeComponent<CrushItem> implements Replaceable {
 
-        public CrushItemComponent() {
-            super("crush_item", CrushItem.CODEC, TypeInfo.of(CrushItem.class));
+        public CrushItemComponent(RecipeComponentType<?> type) {
+            super(type, CrushItem.CODEC, TypeInfo.of(CrushItem.class));
         }
 
         @Override
-        public boolean matches(Context cx, KubeRecipe recipe, CrushItem value, ReplacementMatchInfo match) {
+        public boolean matches(RecipeMatchContext cx, CrushItem value, ReplacementMatchInfo match) {
             var mat = match.match();
             if (((Object) mat) instanceof Ingredient in) {
                 if (in.test(value.stack)) {
                     return true;
                 }
             }
-            return super.matches(cx, recipe, value, match);
+            return super.matches(cx, value, match);
         }
 
         @Override
-        public Object replaceThisWith(Context cx, Object with) {
+        public CrushItem replace(RecipeScriptContext cx, CrushItem original, ReplacementMatchInfo match, Object with) {
             if (with instanceof ItemStack stack) {
                 return new CrushItem(stack, 1.0f, 1);
             }
-            return Replaceable.super.replaceThisWith(cx, with);
+
+            return matches(cx, original, match) ? (CrushItem) Replaceable.super.replaceThisWith(cx, with) : original;
         }
     }
 
@@ -88,8 +66,8 @@ public class ArsComponents {
 
 
     public static class ColorComponent extends SimpleRecipeComponent<Color>  {
-        public ColorComponent() {
-            super("color", Color.CODEC, TypeInfo.of(Color.class));
+        public ColorComponent(RecipeComponentType<?> type) {
+            super(type, Color.CODEC, TypeInfo.of(Color.class));
         }
     }
     
@@ -108,8 +86,8 @@ public class ArsComponents {
     }
 
     public static class SoundComponent extends SimpleRecipeComponent<Sound>  {
-        public SoundComponent() {
-            super("sound", Sound.CODEC, TypeInfo.of(Sound.class));
+        public SoundComponent(RecipeComponentType<?> type) {
+            super(type, Sound.CODEC, TypeInfo.of(Sound.class));
         }
     }
 

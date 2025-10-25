@@ -2,16 +2,14 @@ package com.bobvarioa.kubejsarsnouveau;
 
 import com.bobvarioa.kubejsarsnouveau.components.ArsComponents;
 import com.bobvarioa.kubejsarsnouveau.recipes.*;
-import dev.latvian.mods.kubejs.plugin.KubeJSPlugin;
-import dev.latvian.mods.kubejs.recipe.schema.RecipeComponentFactoryRegistry;
+import dev.latvian.mods.kubejs.recipe.component.RecipeComponentTypeRegistry;
 import dev.latvian.mods.kubejs.recipe.schema.RecipeSchemaRegistry;
 import net.minecraft.resources.ResourceLocation;
 
 public class KubeJSArsNouveauPlugin implements dev.latvian.mods.kubejs.plugin.KubeJSPlugin {
 
     @Override
-    public void registerRecipeComponents(RecipeComponentFactoryRegistry registry) {
-        registry.register(ArsComponents.INGREDIENT_LIST);
+    public void registerRecipeComponents(RecipeComponentTypeRegistry registry) {
         registry.register(ArsComponents.CRUSH_OUTPUT);
         registry.register(ArsComponents.COLOR);
         registry.register(ArsComponents.SOUND);

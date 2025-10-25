@@ -10,9 +10,9 @@ import java.util.List;
 
 public interface EnchantingApparatusRecipeJS {
 
-    RecipeKey<List<Ingredient>> PEDESTAL_ITEMS = IngredientComponent.INGREDIENT.asList().key("pedestalItems", ComponentRole.INPUT);
+    RecipeKey<List<Ingredient>> PEDESTAL_ITEMS = IngredientComponent.INGREDIENT.instance().asList().key("pedestalItems", ComponentRole.INPUT);
 
-    RecipeKey<List<Ingredient>> REAGENT = IngredientComponent.INGREDIENT.asListOrSelf().key("reagent", ComponentRole.INPUT);
+    RecipeKey<List<Ingredient>> REAGENT = IngredientComponent.INGREDIENT.instance().asListOrSelf().key("reagent", ComponentRole.INPUT);
 
     RecipeKey<ItemStack> OUTPUT = ItemStackComponent.ITEM_STACK.key("result", ComponentRole.OUTPUT);
 

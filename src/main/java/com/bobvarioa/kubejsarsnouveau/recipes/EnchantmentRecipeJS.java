@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface EnchantmentRecipeJS {
 
-    RecipeKey<List<Ingredient>> PEDESTAL_ITEMS = IngredientComponent.INGREDIENT.asList().key("pedestalItems", ComponentRole.INPUT);
+    RecipeKey<List<Ingredient>> PEDESTAL_ITEMS = IngredientComponent.INGREDIENT.instance().asList().key("pedestalItems", ComponentRole.INPUT);
 
-    RecipeKey<String> ENCHANTMENT = StringComponent.ANY.key("enchantment", ComponentRole.OTHER);
+    RecipeKey<String> ENCHANTMENT = StringComponent.STRING.key("enchantment", ComponentRole.OTHER);
 
     RecipeKey<Integer> LEVEL = NumberComponent.INT.key("level", ComponentRole.OTHER);
     RecipeKey<Integer> SOURCE = NumberComponent.INT.key("sourceCost", ComponentRole.OTHER).alt("source");

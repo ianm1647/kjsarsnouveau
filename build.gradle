@@ -121,7 +121,7 @@ dependencies {
     implementation "curse.maven:curios-309927:$curios_version"
     implementation "curse.maven:geckolib-388172:$geckolib_version"
 
-    implementation "curse.maven:jei-238222:6614392"
+    implementation "curse.maven:jei-238222:7129287"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {

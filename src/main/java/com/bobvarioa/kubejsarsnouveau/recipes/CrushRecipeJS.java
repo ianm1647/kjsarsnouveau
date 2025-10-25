@@ -14,7 +14,7 @@ public interface CrushRecipeJS {
 
     RecipeKey<Ingredient> INPUT = IngredientComponent.INGREDIENT.key("input", ComponentRole.INPUT);
 
-    RecipeKey<List<ArsComponents.CrushItem>> CRUSH_OUTPUTS = ArsComponents.CRUSH_OUTPUT.asList().key("output", ComponentRole.INPUT);
+    RecipeKey<List<ArsComponents.CrushItem>> CRUSH_OUTPUTS = ArsComponents.CRUSH_OUTPUT.instance().asList().key("output", ComponentRole.INPUT);
 
     RecipeKey<Boolean> SKIP_BLOCK_PLACE = BooleanComponent.BOOLEAN.key("skip_block_place", ComponentRole.OTHER).optional(true);
 

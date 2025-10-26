@@ -4,6 +4,7 @@ import com.bobvarioa.kubejsarsnouveau.components.ArsComponents;
 import com.bobvarioa.kubejsarsnouveau.recipes.*;
 import dev.latvian.mods.kubejs.recipe.component.RecipeComponentTypeRegistry;
 import dev.latvian.mods.kubejs.recipe.schema.RecipeSchemaRegistry;
+import dev.latvian.mods.kubejs.script.BindingRegistry;
 import net.minecraft.resources.ResourceLocation;
 
 public class KubeJSArsNouveauPlugin implements dev.latvian.mods.kubejs.plugin.KubeJSPlugin {
@@ -13,6 +14,13 @@ public class KubeJSArsNouveauPlugin implements dev.latvian.mods.kubejs.plugin.Ku
         registry.register(ArsComponents.CRUSH_OUTPUT);
         registry.register(ArsComponents.COLOR);
         registry.register(ArsComponents.SOUND);
+    }
+
+    @Override
+    public void registerBindings(BindingRegistry registry) {
+        registry.add("CrushItem", ArsComponents.CrushItem.class);
+        registry.add("Color", ArsComponents.Color.class);
+        registry.add("Sound", ArsComponents.Sound.class);
     }
 
     @Override
